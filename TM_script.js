@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Omniva pakisildi crop
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      1.0
 // @description  try to take over the world!
-// @author       You
+// @author       Jürgen
 // @match        https://static.maksekeskus.ee/lbl/*
-// @require      https://unpkg.com/pdf-lib@1.16.0/dist/pdf-lib.min.js
+// @require      https://unpkg.com/pdf-lib
 // @require      https://printjs-4de6.kxcdn.com/print.min.js
 // ==/UserScript==
 
