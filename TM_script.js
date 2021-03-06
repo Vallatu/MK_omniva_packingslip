@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Omniva pakisildi crop
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  try to take over the world!
 // @author       Jürgen
 // @match        https://static.maksekeskus.ee/lbl/*
@@ -11,23 +11,19 @@
 
 (function() {
     'use strict';
-
-
     var url = window.location.href;
-
-
-
     createPdf();
     async function createPdf() {
         const arrayBuffer = await fetch(url).then(res => res.arrayBuffer());
         const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+        const [existingPage] = await pdfDoc.copyPages(pdfDoc, [0])
+        pdfDoc.addPage(existingPage)
         const pages = pdfDoc.getPages()
         const firstPage = pages[0]
+        const barcode = pages[1]
         firstPage.setCropBox(35, 450, 240, 360);
-
+        barcode.setCropBox(85, 330, 140, 210);
         const pdfBytes = await pdfDoc.saveAsBase64()
-
-
         printJS({
                 printable: pdfBytes,
                 type: 'pdf',
@@ -38,12 +34,5 @@
                 fallbackPrintable: () => console.log("FallbackPrintable"),
                 onPrintDialogClose: () => console.log('The print dialog was closed')
             });
-
-        /*document.write(
-            "<iframe id='modifiedPdf' width='100%' height='100%' src='data:application/pdf;base64, " +
-            encodeURI(pdfBytes) + "'></iframe>")*/
-
-
-
     }
 })();
